@@ -20,6 +20,12 @@ UI.prototype.addBookToList = function (book) {
   list.appendChild(row);
 };
 
+UI.prototype.clearFields = function () {
+    document.getElementById("book-title").value = '';
+    document.getElementById("book-author").value = '';
+    document.getElementById("book-isbn").value = '';
+};
+
 //Event Lisner
 const form = document.getElementById("book-form");
 form.addEventListener("submit", formSubmit);
@@ -35,6 +41,7 @@ function formSubmit(e) {
 
   const ui = new UI();
   ui.addBookToList(newBook);
+  ui.clearFields();
 
   e.preventDefault();
 }
