@@ -20,10 +20,25 @@ UI.prototype.addBookToList = function (book) {
   list.appendChild(row);
 };
 
+UI.prototype.showAlert = function (message, className) {
+  const div = document.createElement("div");
+  div.className = `alert ${className}`;
+  div.appendChild(document.createTextNode(message));
+
+  const container = document.querySelector(".container");
+  const formBody = document.querySelector("#book-form");
+
+  container.insertBefore(div, formBody);
+
+  setTimeout(function () {
+    document.querySelector(".alert").remove();
+  }, 3000);
+};
+
 UI.prototype.clearFields = function () {
-    document.getElementById("book-title").value = '';
-    document.getElementById("book-author").value = '';
-    document.getElementById("book-isbn").value = '';
+  document.getElementById("book-title").value = "";
+  document.getElementById("book-author").value = "";
+  document.getElementById("book-isbn").value = "";
 };
 
 //Event Lisner
@@ -36,12 +51,15 @@ function formSubmit(e) {
     isbn = document.getElementById("book-isbn").value;
 
   const newBook = new Book(title, author, isbn);
-
-  //console.log(newBook);
-
   const ui = new UI();
-  ui.addBookToList(newBook);
-  ui.clearFields();
+
+  if (title === "" || author === "" || isbn === "") {
+    ui.showAlert("Please fill all fields", "error");
+  } else {
+    ui.showAlert("Book Added", "success");
+    ui.addBookToList(newBook);
+    ui.clearFields();
+  }
 
   e.preventDefault();
 }
